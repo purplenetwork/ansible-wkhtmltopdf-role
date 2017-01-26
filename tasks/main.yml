@@ -1,0 +1,25 @@
+- name: WKHTMLTOPDF ALL | install packages
+  apt: pkg={{ item }} state=latest update_cache=yes
+  become: true
+  with_items:
+    - fontconfig
+    - libxrender1
+
+- name: WKHTMLTOPDF ALL | check if package is installed
+  stat: path=/tmp/wkhtmltopdf.tar.xz
+  register: wkhtmltopdf_file
+
+- name: WKHTMLTOPDF ALL | download wkhtmltopdf
+  get_url: url=http://download.gna.org/wkhtmltopdf/0.12/0.12.3/wkhtmltox-0.12.3_linux-generic-amd64.tar.xz dest=/tmp/wkhtmltopdf.tar.xz
+  become: true
+  when: not wkhtmltopdf_file.stat.exists
+
+- name: WKHTMLTOPDF ALL | decompress wkhtmltopdf
+  command: tar axf /tmp/wkhtmltopdf.tar.xz -C /tmp
+  become: true
+  when: not wkhtmltopdf_file.stat.exists
+
+- name: WKHTMLTOPDF ALL | install wkhtmltox
+  shell: cp /tmp/wkhtmltox/* /usr/local/ -r
+  become: true
+  when: not wkhtmltopdf_file.stat.exists
