@@ -10,7 +10,7 @@
   register: wkhtmltopdf_file
 
 - name: WKHTMLTOPDF ALL | download wkhtmltopdf
-  get_url: url=http://download.gna.org/wkhtmltopdf/0.12/0.12.3/wkhtmltox-0.12.3_linux-generic-amd64.tar.xz dest=/tmp/wkhtmltopdf.tar.xz
+  get_url: url=http://downloads.wkhtmltopdf.org/0.12/0.12.3/wkhtmltox-0.12.3_linux-generic-amd64.tar.xz dest=/tmp/wkhtmltopdf.tar.xz
   become: true
   when: not wkhtmltopdf_file.stat.exists
 
